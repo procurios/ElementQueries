@@ -16,7 +16,7 @@ Features:
 
 ## Browser Support
 
-This library is used in production (and maintained) by [Procurios](htts://procurios.com). It's tested on Chrome, Safari, Opera, Firefox and IE7+. Internet Explorer uses the native available `onresize` event on elements.
+This library is used in production (and maintained) by [Procurios](https://procurios.com). It's tested on Chrome, Safari, Opera, Firefox and IE7+. Internet Explorer uses the native available `onresize` event on elements.
 
 ## Usage
 
@@ -24,7 +24,7 @@ How you load this library (synchronous or asynchronous) is entirely up to you. I
 
 ### Javascript
 
-#### Asynchronous
+#### Loading asynchronous
 
 ```js
 <script>
@@ -37,7 +37,7 @@ How you load this library (synchronous or asynchronous) is entirely up to you. I
 </script>
 ```
 
-#### Synchronous
+#### Loading Synchronous
 
 Because the modules are named, it's possible to just include the necessary script files in your document:
 
@@ -50,6 +50,26 @@ Because the modules are named, it's possible to just include the necessary scrip
 ```
 
 This will block rendering, which might be preferable if drawing a specific component needs to be (close to) instant.
+
+#### ElementQueriesApi
+
+The public `ElementQueriesApi` provides the following methods.
+
+```js
+// Initializes element queries for a single element
+ElementQueriesApi.initializeSingle('elementId');
+
+// Initializes element queries for multiple elements inside element with `parentId`
+ElementQueriesApi.initializeMultiple('parentId');
+
+// Destroys element queries for a single element
+ElementQueriesApi.destroySingle('elementId');
+
+// Destroys element queries for multiple elements inside element with `parentId`
+ElementQueriesApi.destroyMultiple('parentId');
+```
+
+Make sure to destroy existing element queries before creating new ones (eg. when updating your page / component as the result of an Ajax call). This makes sure all references are destroyed and can be garbage collected.
 
 ### HTML
 
@@ -81,6 +101,12 @@ $EQAttribute->addQuery(ElementQueriesAttribute::MODE_MIN, ElementQueriesAttribut
 $attributeValue = $EQAttribute->asString(); // $attributeValue => data-element-queries='{"queries":["min-width:500px"]}'
 ```
 
+#### Configuration
+
+The following addition configuration is supported:
+
+`classNameToToggleAfterInit` {`string`}: Toggles given classname on the target element after initializing its element queries. Example usage: toggling visibility, CSS transitions or animations.
+
 ### CSS
 
 If one or more provided element queries match the elements dimensions, the value is written to one of the following attributes: `min-width`, `max-width`, `min-height`, `max-height`. Use these attributes in your CSS via attribute selectors. For example:
@@ -99,25 +125,6 @@ If one or more provided element queries match the elements dimensions, the value
 }
 ```
 
-## ElementQueriesApi
-
-The public `ElementQueriesApi` provides the following methods.
-
-```js
-// Initializes element queries for a single element
-ElementQueriesApi.initializeSingle('elementId');
-
-// Initializes element queries for multiple elements inside element with `parentId`
-ElementQueriesApi.initializeMultiple('parentId');
-
-// Destroys element queries for a single element
-ElementQueriesApi.destroySingle('elementId');
-
-// Destroys element queries for multiple elements inside element with `parentId`
-ElementQueriesApi.destroyMultiple('parentId');
-```
-
-Make sure to destroy existing element queries before creating new ones (eg. when updating your page / component as the result of an Ajax call). This makes sure all references are destroyed and can be garbage collected.
-
 ## License
-MIT license.
+
+[MPL version 2.0](https://www.mozilla.org/en-US/MPL/2.0/)
