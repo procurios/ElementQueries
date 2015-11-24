@@ -1,7 +1,7 @@
 /**
  * @see (https://github.com/pesla/ElementQueries)
  * @author Peter Slagter
- * @copyright MPL version 2.0
+ * @license MPL version 2.0
  * @preserve
  */
 
