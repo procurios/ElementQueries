@@ -44,7 +44,7 @@
 				var targetElement = document.querySelector(getCssSelector(targetElementId));
 
 				if (!targetElement) {
-					console && console.error('No valid element found for given selector. Exiting.');
+					console && console.info('No valid element found for given selector. Exiting.', getCssSelector(targetElementId));
 					return;
 				}
 
@@ -58,7 +58,7 @@
 				var targetElements = document.querySelectorAll(getCssSelector(parentElementId, true));
 
 				if (targetElements.length === 0) {
-					console && console.error('No valid elements found for given selector. Exiting.');
+					console && console.info('No valid elements found for given selector. Exiting.', getCssSelector(parentElementId, true));
 					return;
 				}
 
