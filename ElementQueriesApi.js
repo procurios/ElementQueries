@@ -41,7 +41,6 @@
 			 * @param {string} targetElementId
 			 */
 			PrivateElementQueriesApi.prototype.initializeSingle = function (targetElementId) {
-				console.log(getCssSelector(targetElementId));
 				var targetElement = document.querySelector(getCssSelector(targetElementId));
 
 				if (!targetElement) {
