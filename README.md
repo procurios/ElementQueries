@@ -18,16 +18,14 @@ Features:
 
 This library is used in production (and maintained) by [Procurios](htts://procurios.com). It's tested on Chrome, Safari, Opera, Firefox and IE7+. Internet Explorer uses the native available `onresize` event on elements.
 
-## Installation
+## Usage
 
 How you load this library (synchronous or asynchronous) is entirely up to you. It uses the `requirejs` ecosystem for defining and loading the modules, so you'll likely have to review and adjust the paths to fit your needs. It depends on [`ResizeSensor`](https://github.com/procurios/ResizeSensor), so make sure it's available.
 
-### `data-element-queries` attribute
-The element queries that apply to an element are defined in the `data-element-queries` attribute. It's a simple JSON string:
+### Javascript
 
+#### Asynchronous
 
-
-### Asyncronous loading
 ```js
 <script>
 	require(['droplet/ElementQueries/ElementQueriesApi'],
@@ -39,47 +37,87 @@ The element queries that apply to an element are defined in the `data-element-qu
 </script>
 ```
 
+#### Synchronous
 
-```css
-.your-component {
-    padding: 25px;
-}
+Because the modules are named, it's possible to just include the necessary script files in your document:
 
-.your-component[max-width~="400px"] {
-    padding: 55px;
-}
+```html
+<script src='path/to/ElementQueriesApi.js'></script>
+<script src='path/to/ElementQueryElement.js'></script>
+<script src='path/to/ElementQuery.js'></script>
+<script src='path/to/ResizeSensorApi.js'></script>
+<script src='path/to/ResizeSensor.js'></script>
+```
 
-.your-component[max-width~="200px"] {
-    padding: 0;
-}
+This will block rendering, which might be preferable if drawing a specific component needs to be (close to) instant.
 
-.another-component[max-width~="400px"] li {
-    display: inline-block;
-}
- 
-.another-component[min-width="400px"] li {
-    display: block;
+### HTML
+
+The element queries that apply to an element are defined in the `data-element-queries` attribute. It's a simple JSON string:
+
+```json
+{
+    "queries": [
+        "min-width:980px",
+        "max-width:700px"
+    ],
+    "config": {
+        "classNameToToggleAfterInit": "YourComponent--visible"
+    }
 }
 ```
 
-## Installation
+The property `queries` is required. Additional `config` is optional. The actual HTML would look as following:
 
-ElementQueries.js depends on `domLoad` and `ResizeSensor.js`.
+```html
+<div id='YourComponent' class='YourComponent' data-element-queries='{"queries":["min-width:980px","max-width:700px"],"config":{"classNameToToggleAfterInit":"YourComponent--visible"}}'></div>
+```
 
-@todo: describe how to implement.
+If you don't want to write JSON by hand, you can use the included PHP class `ElementQueriesAttribute`:
 
-In short, the Javascript:
+```php
+$EQAttribute = new ElementQueriesAttribute();
+$EQAttribute->addQuery(ElementQueriesAttribute::MODE_MIN, ElementQueriesAttribute::PROPERTY_WIDTH, 500);
+$attributeValue = $EQAttribute->asString(); // $attributeValue => data-element-queries='{"queries":["min-width:500px"]}'
+```
 
-1. Reads all CSSRules and grabs selectors that match [min|max]-[width|height].
-2. Filters out invalid selectors and breaks them into usable pieces.
-3. Initializes resize detection for each valid selector.
-4. Fires a callback whenever an element has resized.
-5. Determines whether or not one of the element queries apply to the current element dimensions and sets the related attribute.
+### CSS
 
-## Remarks
+If one or more provided element queries match the elements dimensions, the value is written to one of the following attributes: `min-width`, `max-width`, `min-height`, `max-height`. Use these attributes in your CSS via attribute selectors. For example:
 
-- Does not work on `img` and other elements that can't contain other elements. Wrapping with a `div` works fine.
-- The resize detector adds additional elements into the target element. The target element is forced to be `position: relative;`.
+```css
+.YourComponent {
+	padding: 10px;
+}
+
+.YourComponent[min-width~="500px"] {
+    padding: 25px;
+}
+
+.YourComponent[min-width~="800px"] {
+    padding: 50px;
+}
+```
+
+## ElementQueriesApi
+
+The public `ElementQueriesApi` provides the following methods.
+
+```js
+// Initializes element queries for a single element
+ElementQueriesApi.initializeSingle('elementId');
+
+// Initializes element queries for multiple elements inside element with `parentId`
+ElementQueriesApi.initializeMultiple('parentId');
+
+// Destroys element queries for a single element
+ElementQueriesApi.destroySingle('elementId');
+
+// Destroys element queries for multiple elements inside element with `parentId`
+ElementQueriesApi.destroyMultiple('parentId');
+```
+
+Make sure to destroy existing element queries before creating new ones (eg. when updating your page / component as the result of an Ajax call). This makes sure all references are destroyed and can be garbage collected.
 
 ## License
 MIT license.
