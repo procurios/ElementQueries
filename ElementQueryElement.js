@@ -73,6 +73,9 @@
 				}
 			};
 
+			/**
+			 * @param {[]} elementQueries
+			 */
 			ElementQueryElement.prototype.addElementQueries = function (elementQueries) {
 				var j;
 				var queryCount = elementQueries.length;
