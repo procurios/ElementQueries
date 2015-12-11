@@ -31,7 +31,7 @@
 			/**
 			 * @constructor
 			 */
-			var PrivateElementQueriesApi = function () {
+			var EqApi = function () {
 				/** @var {{elementId: {instance: ElementQueryElement, callback: Function}}} */
 				this.allElementQueryElements = {};
 				/** @var int */
@@ -41,7 +41,7 @@
 			/**
 			 * @param {string} targetElementId
 			 */
-			PrivateElementQueriesApi.prototype.initializeSingle = function (targetElementId) {
+			EqApi.prototype.initializeSingle = function (targetElementId) {
 				var targetElement = document.querySelector(getCssSelector(targetElementId));
 
 				if (!targetElement) {
@@ -55,7 +55,7 @@
 			/**
 			 * @param {string} parentElementId
 			 */
-			PrivateElementQueriesApi.prototype.initializeMultiple = function (parentElementId) {
+			EqApi.prototype.initializeMultiple = function (parentElementId) {
 				var targetElements = document.querySelectorAll(getCssSelector(parentElementId, true));
 
 				if (targetElements.length === 0) {
@@ -69,7 +69,7 @@
 			/**
 			 * @param {NodeList|[]} targetElements
 			 */
-			PrivateElementQueriesApi.prototype.initializeElementQueries = function (targetElements) {
+			EqApi.prototype.initializeElementQueries = function (targetElements) {
 				var i;
 				var elementCount = targetElements.length;
 
@@ -101,7 +101,7 @@
 			 * @param {HTMLElement} targetElement
 			 * @returns {string}
 			 */
-			PrivateElementQueriesApi.prototype.identifyElement = function (targetElement) {
+			EqApi.prototype.identifyElement = function (targetElement) {
 				var elementId = targetElement.id;
 
 				if (elementId) {
@@ -117,7 +117,7 @@
 			 * @param {string} elementId
 			 * @returns {ElementQueryElement}
 			 */
-			PrivateElementQueriesApi.prototype.getElementQueryElementByElementId = function (elementId) {
+			EqApi.prototype.getElementQueryElementByElementId = function (elementId) {
 				if (!this.allElementQueryElements[elementId]) {
 					return null;
 				}
@@ -134,7 +134,7 @@
 			/**
 			 * @param {string} parentElementId
 			 */
-			PrivateElementQueriesApi.prototype.destroyMultiple = function (parentElementId) {
+			EqApi.prototype.destroyMultiple = function (parentElementId) {
 				var selector = '#' + parentElementId + ' [' + dataAttrName + ']';
 				var targetElements = document.querySelectorAll(selector);
 				var elementCount = targetElements.length;
@@ -149,7 +149,7 @@
 			/**
 			 * @param {string} targetElementId
 			 */
-			PrivateElementQueriesApi.prototype.destroySingle = function (targetElementId) {
+			EqApi.prototype.destroySingle = function (targetElementId) {
 				var targetElement = document.querySelector(getCssSelector(targetElementId));
 
 				if (!targetElement) {
@@ -163,7 +163,7 @@
 			/**
 			 * @param {NodeList|[]} targetElements
 			 */
-			PrivateElementQueriesApi.prototype.destroyElementQueries = function (targetElements) {
+			EqApi.prototype.destroyElementQueries = function (targetElements) {
 				var i;
 				var elementCount = targetElements.length;
 
@@ -201,17 +201,22 @@
 				return '#' + elementId + '[' + dataAttrName + ']';
 			}
 
-			var Api = new PrivateElementQueriesApi();
+			var eqApi = new EqApi();
 
 			/**
 			 *
-			 * @type {{initializeSingle: (function(targetElementId)), initializeMultiple: (function(parentElementId)), destroySingle: (function(targetElementId), destroyMultiple: (parentElementId)}}
+			 * @type {{
+			 *      initializeSingle: string,
+			 *      initializeMultiple: NodeList|[],
+			 *      destroySingle: string,
+			 *      destroyMultiple: string
+			 * }}
 			 */
 			var ElementQueriesApi = {
-				initializeSingle: Api.initializeSingle.bind(Api),
-				initializeMultiple: Api.initializeMultiple.bind(Api),
-				destroySingle: Api.destroySingle.bind(Api),
-				destroyMultiple: Api.destroyMultiple.bind(Api)
+				initializeSingle: eqApi.initializeSingle.bind(eqApi),
+				initializeMultiple: eqApi.initializeMultiple.bind(eqApi),
+				destroySingle: eqApi.destroySingle.bind(eqApi),
+				destroyMultiple: eqApi.destroyMultiple.bind(eqApi)
 			};
 
 			return ElementQueriesApi;
