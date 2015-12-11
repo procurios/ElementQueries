@@ -26,6 +26,7 @@ class ElementQueriesAttribute
 	 * @param string $mode
 	 * @param string $property
 	 * @param int $value
+	 * @return $this
 	 */
 	public function addQuery($mode, $property, $value)
 	{
@@ -42,6 +43,7 @@ class ElementQueriesAttribute
 		}
 
 		$this->allQueries[] = $mode . '-' . $property . ':' . $value . 'px';
+		return $this;
 	}
 
 	/**
