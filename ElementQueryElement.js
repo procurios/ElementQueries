@@ -15,7 +15,7 @@
 		dependencies.push('vendor/json3/lib/json3.min');
 	}
 	if (!('classList' in document.createElement('p'))) {
-		dependencies.push('vendor/classlist/classList.min.js');
+		dependencies.push('vendor/classlist/classList.min');
 	}
 
 	define('droplet/ElementQueries/ElementQueryElement', dependencies,
