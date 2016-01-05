@@ -16,7 +16,7 @@ Features:
 
 ## Browser Support
 
-This library is used in production (and maintained) by [Procurios](https://procurios.com). It's tested on Chrome, Safari, Opera, Firefox and IE7+. Internet Explorer uses the native available `onresize` event on elements.
+This library is used in production (and maintained) by [Procurios](https://procurios.com). It's tested on Chrome, Safari, Opera, Firefox and IE7+. Internet Explorer uses its native `onresize` event available for elements.
 
 ## Usage
 
